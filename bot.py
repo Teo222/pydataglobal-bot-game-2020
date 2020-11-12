@@ -36,11 +36,15 @@ solution!
 """
 import sys
 from argparse import ArgumentParser
+from statistics import *
+
 
 import numpy as np
 
 from supply_chain_env.envs.env import SupplyChainBotTournament
 from supply_chain_env.leaderboard import post_score_to_api
+
+orders_customer=[]
 
 
 orders_customer=[]
@@ -124,6 +128,7 @@ def parse_args():
 
 def main(args):
     last_state = run_game(create_agents(), verbose=True)
+    print(orders_customer)
 
     if args.no_submit:
         sys.exit(0)
@@ -131,7 +136,6 @@ def main(args):
     # get total costs and post results to leaderboard api
     total_costs = sum(agent_state["cum_cost"] for agent_state in last_state)
     post_score_to_api(score=total_costs)
-
 
 if __name__ == '__main__':
     main(parse_args())
